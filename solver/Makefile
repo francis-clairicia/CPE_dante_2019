@@ -17,9 +17,10 @@ NAME	=	solver
 
 MAIN	=	src/main.c
 
-SRC	=	src/fill_arr.c	\
-		src/solver.c	\
-		src/get_next_line.c
+SRC	=	src/fill_arr.c		\
+		src/solver.c		\
+		src/get_next_line.c	\
+		src/path_finder.c
 
 TESTSRC	=	tests/test_ls.c
 
@@ -29,6 +30,7 @@ all:	$(NAME)
 
 $(NAME):	$(OBJ)
 	$(LD) -o $(NAME) $(OBJ) $(CFLAGS) $(CPPFLAGS)
+	mv $(NAME) ../
 
 clean:
 	rm -f $(OBJ)
