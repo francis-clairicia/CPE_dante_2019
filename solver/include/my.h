@@ -41,7 +41,7 @@ int back_four(maze_t *maze, int *posx, int *posy);
 
 //prepare_moves.c
 char *create_back(maze_t *maze, int posx, int posy);
-char *create_moves(maze_t *maze, int posx, int posy);
+char *create_moves(maze_t *maze, int posx, int posy, char *prev_move);
 
 //use_list.c
 list_t *create_list(void);
