@@ -52,26 +52,24 @@ int check_no_way(maze_t *maze, int *posx, int *posy)
 
 maze_t path_finder(maze_t maze, int posx, int posy)
 {
-    char *move = create_moves(&maze, posx, posy);
+    char *move = create_moves(&maze, posx, posy, NULL);
     int (*find_move[])(maze_t *, int *, int *) = {move_one, move_two, \
     move_three, move_four};
     int pass = 0;
     int i = 0;
-
     while ((posx != maze.size_x - 1 || posy != maze.size_y) && move != NULL) {
         pass = check_no_way(&maze, &posx, &posy);
         if (maze.maze[maze.size_x -1][maze.size_y - 1] == 'o')
             return maze;
         while (pass == 0) {
-            if (move[i] == '*' && maze.maze[maze.size_x - 1] \
-            [maze.size_y - 1] != 'o')
+            if (maze.maze[maze.size_x - 1][maze.size_y - 1] != 'o' && \
+            move[i] == '*')
                 pass = find_move[i](&maze, &posx, &posy);
             i++;
         }
         pass = 0;
         i = 0;
-        free(move);
-        move = create_moves(&maze, posx, posy);
+        move = create_moves(&maze, posx, posy, move);
     }
     return (maze);
 }

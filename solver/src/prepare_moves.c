@@ -21,10 +21,12 @@ char *create_back(maze_t *maze, int posx, int posy)
     return move;
 }
 
-char *create_moves(maze_t *maze, int posx, int posy)
+char *create_moves(maze_t *maze, int posx, int posy, char *prev_move)
 {
     char *move = malloc(sizeof(char) * 5);
 
+    if (prev_move != NULL)
+        free(prev_move);
     if (move != NULL) {
         move[0] = check_pos_exist(*maze, posx, posy + 1);
         move[1] = check_pos_exist(*maze, posx + 1, posy);
