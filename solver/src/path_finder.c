@@ -62,13 +62,6 @@ maze_t path_finder(maze_t maze, int posx, int posy)
     int i = 0;
     while ((posx != maze.size_x - 1 || posy != maze.size_y) && move != NULL) {
         pass = check_no_way(&maze, &posx, &posy);
-        /*int count = 0;
-        while (maze.maze[count] != NULL) {
-            printf("%s\n", maze.maze[count]);
-            count++;
-        }
-        printf("\n");
-        count = 0;*/
         if (maze.maze[maze.size_x -1][maze.size_y - 1] == 'o' || pass == 84)
             return maze;
         while (pass == 0) {
