@@ -44,5 +44,7 @@ char **fill_arr(int fd)
         x++;
     }
     maze[x] = NULL;
+    if (maze[0][0] != '*')
+        return NULL;
     return maze;
 }

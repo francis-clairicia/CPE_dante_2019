@@ -33,7 +33,6 @@ void choose_back_move(maze_t *maze, int *posx, int *posy, char *move)
 int check_no_way(maze_t *maze, int *posx, int *posy)
 {
     char *move = create_back(maze, *posx, *posy);
-
     if (*posx == maze->size_x - 1 && *posy == maze->size_y - 1) {
         maze->maze[maze->size_x - 1][maze->size_y - 1] = 'o';
         return 1;
