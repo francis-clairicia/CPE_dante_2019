@@ -38,8 +38,11 @@ int check_no_way(maze_t *maze, int *posx, int *posy)
         maze->maze[maze->size_x - 1][maze->size_y - 1] = 'o';
         return 1;
     }
-    if (move[0] != '*' && move[1] != '*' && \
-    move[2] != '*' && move[3] != '*') {
+    if (move[0] != '*' && move[1] != '*' && move[2] != '*' && \
+    move[3] != '*') {
+        if (move[0] != 'o' && move[1] != 'o' && move[2] != 'o' && \
+        move[3] != 'o')
+            return 84;
         choose_back_move(maze, posx, posy, move);
         free(move);
         return 1;
@@ -59,7 +62,14 @@ maze_t path_finder(maze_t maze, int posx, int posy)
     int i = 0;
     while ((posx != maze.size_x - 1 || posy != maze.size_y) && move != NULL) {
         pass = check_no_way(&maze, &posx, &posy);
-        if (maze.maze[maze.size_x -1][maze.size_y - 1] == 'o')
+        /*int count = 0;
+        while (maze.maze[count] != NULL) {
+            printf("%s\n", maze.maze[count]);
+            count++;
+        }
+        printf("\n");
+        count = 0;*/
+        if (maze.maze[maze.size_x -1][maze.size_y - 1] == 'o' || pass == 84)
             return maze;
         while (pass == 0) {
             if (maze.maze[maze.size_x - 1][maze.size_y - 1] != 'o' && \

@@ -11,6 +11,8 @@ int back_one(maze_t *maze, int *posx, int *posy)
 {
     node_t *tmp = NULL;
 
+    if (*posy - 1 != maze->pos->first->y)
+        return 0;
     *posx = maze->pos->first->x;
     *posy = maze->pos->first->y;
     tmp = maze->pos->first;
@@ -24,6 +26,8 @@ int back_two(maze_t *maze, int *posx, int *posy)
 {
     node_t *tmp = NULL;
 
+    if (*posx - 1 != maze->pos->first->x)
+        return 0;
     *posx = maze->pos->first->x;
     *posy = maze->pos->first->y;
     tmp = maze->pos->first;
@@ -37,6 +41,8 @@ int back_three(maze_t *maze, int *posx, int *posy)
 {
     node_t *tmp = NULL;
 
+    if (*posx + 1 != maze->pos->first->x)
+        return 0;
     *posx = maze->pos->first->x;
     *posy = maze->pos->first->y;
     tmp = maze->pos->first;
@@ -50,6 +56,8 @@ int back_four(maze_t *maze, int *posx, int *posy)
 {
     node_t *tmp = NULL;
 
+    if (*posy + 1 != maze->pos->first->y)
+        return 0;
     *posx = maze->pos->first->x;
     *posy = maze->pos->first->y;
     tmp = maze->pos->first;
