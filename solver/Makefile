@@ -20,7 +20,11 @@ MAIN	=	src/main.c
 SRC	=	src/fill_arr.c		\
 		src/solver.c		\
 		src/get_next_line.c	\
-		src/path_finder.c
+		src/path_finder.c	\
+		src/path_finder_ptr_func.c	\
+		src/check_no_way_ptr_func.c	\
+		src/prepare_moves.c			\
+		src/use_list.c
 
 TESTSRC	=	tests/test_ls.c
 
@@ -30,7 +34,6 @@ all:	$(NAME)
 
 $(NAME):	$(OBJ)
 	$(LD) -o $(NAME) $(OBJ) $(CFLAGS) $(CPPFLAGS)
-	mv $(NAME) ../
 
 clean:
 	rm -f $(OBJ)

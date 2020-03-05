@@ -31,6 +31,23 @@ int count_row(char **arr)
     return (x);
 }
 
+int is_there_an_exit(maze_t maze)
+{
+    int x = 0;
+    int y = 0;
+
+    while (maze.maze[x] != NULL) {
+        while (maze.maze[x][y] != '\0') {
+            if (maze.maze[x][y] == '*')
+                return 0;
+            y++;
+        }
+        y = 0;
+        x++;
+    }
+    return -1;
+}
+
 maze_t remove_n(maze_t maze)
 {
     int x = 0;
@@ -60,7 +77,13 @@ int solver(char *pathname)
         return 84;
     maze.size_x = count_row(maze.maze);
     maze.size_y = strlen(maze.maze[0]);
+    maze.pos = create_list();
     maze = path_finder(maze, 0, 0);
+    if (is_there_an_exit(maze) == -1) {
+        maze = remove_n(maze);
+        printf("no solution found\n");
+        return 84;
+    }
     maze = remove_n(maze);
     if (print_array(maze.maze) == 84)
         return 84;

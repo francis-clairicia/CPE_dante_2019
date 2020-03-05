@@ -13,11 +13,15 @@ char **fill_arr(int fd)
     char **maze = NULL;
     char *buff = NULL;
     int x = 0;
+    int size = 0;
 
     if (fd == -1)
         return NULL;
     buff = get_next_line(fd);
+    size = strlen(buff);
     while (buff != NULL) {
+        if ((int)strlen(buff) != size)
+            return NULL;
         maze = realloc(maze, sizeof(char *) * (x + 2));
         maze[x] = malloc(sizeof(char) * (strlen(buff) + 1));
         if (maze[x] == NULL)
