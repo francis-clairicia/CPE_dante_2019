@@ -7,6 +7,14 @@
 
 #include "my.h"
 
+char check_pos_exist(maze_t maze, int posx, int posy)
+{
+    if (posx >= maze.size_x || posx < 0 || posy >= maze.size_y || posy < 0) {
+        return ('X');
+    }
+    return (maze.maze[posx][posy]);
+}
+
 char *create_back(maze_t *maze, int posx, int posy)
 {
     char *move = malloc(sizeof(char) * 5);

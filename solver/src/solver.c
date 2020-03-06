@@ -69,7 +69,6 @@ int solver(char *pathname)
 {
     int fd = open(pathname, O_RDONLY);
     maze_t maze;
-
     maze.maze = fill_arr(fd);
     if (maze.maze == NULL)
         return 84;

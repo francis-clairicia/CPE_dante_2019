@@ -23,19 +23,13 @@ int valid_line(char *buff)
     return 0;
 }
 
-char **fill_arr(int fd)
+char **read_file(int fd, struct stat statbuf)
 {
     char **maze = NULL;
-    char *buff = NULL;
+    char *buff = get_next_line(fd);
+    int size = strlen(buff);
     int x = 0;
-    int size = 0;
-    struct stat statbuf;
 
-    if (fd == -1)
-        return NULL;
-    fstat(fd, &statbuf);
-    buff = get_next_line(fd);
-    size = strlen(buff);
     maze = malloc(sizeof(char *) * ((statbuf.st_size / size) + 1));
     while (buff != NULL) {
         if ((int)strlen(buff) != size || valid_line(buff) != 0) {
@@ -49,6 +43,18 @@ char **fill_arr(int fd)
         x += 1;
     }
     maze[x] = NULL;
+    return maze;
+}
+
+char **fill_arr(int fd)
+{
+    char **maze = NULL;
+    struct stat statbuf;
+
+    if (fd == -1)
+        return NULL;
+    fstat(fd, &statbuf);
+    maze = read_file(fd, statbuf);
     if (maze[0][0] != '*') {
         free_arr(maze);
         return NULL;
