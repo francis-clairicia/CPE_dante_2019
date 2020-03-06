@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2019
-## PSU_navy_2018
+## CPE_dante_2019
 ## File description:
 ## Makefile
 ##
@@ -9,24 +9,14 @@ all:
 	make -C solver/
 
 clean:
-	rm -f $(OBJ)
-	rm -f *.o
-	rm -f *.gcda
-	rm -f *.gcno
-	rm -f vgcore.*
+	make clean -C solver/
 
-fclean:		clean
-	rm -f $(NAME)
+fclean:
+	make fclean -C solver/
 
 re:	fclean all
 
-tests_run: CFLAGS += --coverage
-tests_run: LDLIBS += -lcriterion
 tests_run:
-	gcc -o tests_run $(SRC) $(TESTSRC) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
-	./tests_run
-
-debug:
-	gcc -g -o $(NAME) $(MAIN) $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
+	make tests_run -C solver/
 
 .PHONY: all clean fclean re tests_run
