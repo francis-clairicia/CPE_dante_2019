@@ -5,13 +5,11 @@
 ## Makefile
 ##
 
-CFLAGS	=	-Wall -Wextra -Werror -W -g
+CFLAGS	=	-Wall -Wextra -Werror -W
 
 CPPFLAGS	=	-I./include/
 
 LDLIBS	=	-lcriterion
-
-LD		= gcc
 
 NAME	=	solver
 
@@ -24,6 +22,7 @@ SRC	=	src/fill_arr.c		\
 		src/path_finder_ptr_func.c	\
 		src/check_no_way_ptr_func.c	\
 		src/prepare_moves.c			\
+		src/free.c					\
 		src/use_list.c
 
 TESTSRC	=	tests/test_ls.c
@@ -33,7 +32,7 @@ OBJ	=	$(SRC:.c=.o) $(MAIN:.c=.o)
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(LD) -o $(NAME) $(OBJ) $(CFLAGS) $(CPPFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(CPPFLAGS)
 
 clean:
 	rm -f $(OBJ)
@@ -54,6 +53,6 @@ tests_run:
 	./tests_run
 
 debug:
-	gcc -g -o $(NAME) $(MAIN) $(SRC) $(CFLAGS) $(LDFLAGS)
+	gcc -g -o $(NAME) $(MAIN) $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
 
 .PHONY: all clean fclean re tests_run

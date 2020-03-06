@@ -7,6 +7,9 @@
 
 #include "my.h"
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 int valid_line(char *buff)
 {
@@ -26,25 +29,29 @@ char **fill_arr(int fd)
     char *buff = NULL;
     int x = 0;
     int size = 0;
+    struct stat statbuf;
 
     if (fd == -1)
         return NULL;
+    fstat(fd, &statbuf);
     buff = get_next_line(fd);
     size = strlen(buff);
+    maze = malloc(sizeof(char *) * ((statbuf.st_size / size) + 1));
     while (buff != NULL) {
-        if ((int)strlen(buff) != size || valid_line(buff) != 0)
+        if ((int)strlen(buff) != size || valid_line(buff) != 0) {
+            free(buff);
+            maze[x] = NULL;
+            free_arr(maze);
             return NULL;
-        maze = realloc(maze, sizeof(char *) * (x + 2));
-        maze[x] = malloc(sizeof(char) * (strlen(buff) + 1));
-        if (maze[x] == NULL)
-            return NULL;
+        }
         maze[x] = buff;
-        maze[x][strlen(buff)] = '\0';
         buff = get_next_line(fd);
-        x++;
+        x += 1;
     }
     maze[x] = NULL;
-    if (maze[0][0] != '*')
+    if (maze[0][0] != '*') {
+        free_arr(maze);
         return NULL;
+    }
     return maze;
 }

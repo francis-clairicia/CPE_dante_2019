@@ -41,11 +41,15 @@ int back_four(maze_t *maze, int *posx, int *posy);
 
 //prepare_moves.c
 char *create_back(maze_t *maze, int posx, int posy);
-char *create_moves(maze_t *maze, int posx, int posy, char *prev_move);
+char *create_moves(maze_t *maze, int posx, int posy);
 
 //use_list.c
 list_t *create_list(void);
 node_t *create_node(int x, int y);
 node_t *put_node_start(list_t *list, node_t *node);
+
+//free.c
+void free_maze(maze_t maze);
+void free_arr(char **arr);
 
 #endif

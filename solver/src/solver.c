@@ -69,8 +69,7 @@ int solver(char *pathname)
 {
     int fd = open(pathname, O_RDONLY);
     maze_t maze;
-    if (fd == -1)
-        return 84;
+
     maze.maze = fill_arr(fd);
     if (maze.maze == NULL)
         return 84;
@@ -81,10 +80,12 @@ int solver(char *pathname)
     if (is_there_an_exit(maze) == -1) {
         maze = remove_n(maze);
         printf("no solution found\n");
+        free_maze(maze);
         return 84;
     }
     maze = remove_n(maze);
     if (print_array(maze.maze) == 84)
         return 84;
+    free_maze(maze);
     return 0;
 }
