@@ -13,7 +13,7 @@ int move_one(maze_t *maze, int *posx, int *posy)
 
     tmp = create_node(*posx, *posy);
     put_node_start(maze->pos, tmp);
-    *posy = *posy + 1;
+    *posx = *posx + 1;
     return 1;
 }
 
@@ -23,7 +23,7 @@ int move_two(maze_t *maze, int *posx, int *posy)
 
     tmp = create_node(*posx, *posy);
     put_node_start(maze->pos, tmp);
-    *posx = *posx + 1;
+    *posy = *posy + 1;
     return 1;
 }
 
