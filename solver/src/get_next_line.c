@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int my_strlen_with_limit(char const *str, char limit)
+static int my_strlen_with_limit(char const *str, char limit)
 {
     int count = 0;
 
@@ -18,7 +18,7 @@ int my_strlen_with_limit(char const *str, char limit)
     return (count);
 }
 
-int my_realloc(char **str, int to_add)
+static int my_realloc(char **str, int to_add)
 {
     int str_size = my_strlen_with_limit(*str, 0);
     char *new_str = malloc(sizeof(char) * (str_size + to_add + 1));
@@ -38,7 +38,7 @@ int my_realloc(char **str, int to_add)
     return (output);
 }
 
-int my_strcat(char **dest, char const *src, char limit)
+static int my_strcat(char **dest, char const *src, char limit)
 {
     int i = 0;
     int first = my_strlen_with_limit(*dest, 0);
@@ -53,7 +53,7 @@ int my_strcat(char **dest, char const *src, char limit)
     return ((src[i] == '\0') ? 1 : 2);
 }
 
-int read_file(int fd, char *buffer, char **save)
+static int read_file(int fd, char *buffer, char **save)
 {
     int i = 0;
     int size = -1;
