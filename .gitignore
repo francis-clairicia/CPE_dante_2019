@@ -1,0 +1,5 @@
+*.o
+vgcore*
+solver
+!./solver
+.vscode
