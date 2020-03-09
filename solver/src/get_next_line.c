@@ -1,79 +1,100 @@
 /*
-** EPITECH PROJECT, 2018
-** get_next_line
+** EPITECH PROJECT, 2019
+** CPE_dante_2019
 ** File description:
-** read_and_display_read_line
+** get_next_line.c
 */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "get_next_line.h"
-#include <string.h>
 
-char *my_realloc(char *str)
+int my_strlen_with_limit(char const *str, char limit)
 {
     int count = 0;
-    int size = strlen(str) + 3;
-    char *tmp = malloc(sizeof(char) * size);
 
-    if (tmp != NULL) {
-        while (count != size - 2) {
-            tmp[count] = str[count];
-            count++;
-        }
-        tmp[count + 1] = '\0';
-        free(str);
-    }
-    return (tmp);
+    while (str != NULL && str[count] != '\0' && str[count] != limit)
+        count += 1;
+    return (count);
 }
 
-char read_the_line(int fd)
+int my_realloc(char **str, int to_add)
 {
-    static int counter = 0;
-    static char buff[READ_SIZE];
-    static char *tmp = NULL;
-    char c = '\0';
+    int str_size = my_strlen_with_limit(*str, 0);
+    char *new_str = malloc(sizeof(char) * (str_size + to_add + 1));
+    int i = 0;
+    int output = 1;
 
-    if (counter == 0 && counter != -1) {
-        counter = read(fd, buff, READ_SIZE);
-        if (strlen(buff) == 0 || counter == 0)
-            return ('\0');
-        tmp = buff;
-    }
-    counter--;
-    c = *tmp;
-    tmp++;
-    return (c);
-
-}
-
-char *ret(int i, char c, char *line)
-{
-    line[i] = '\0';
-    if (!c) {
-        if (line && strlen(line) > 1) {
-            return (line);
-        } else {
-            free(line);
-            return (NULL);
+    if (new_str == NULL) {
+        output = 0;
+    } else {
+        while (i < str_size + to_add + 1) {
+            new_str[i] = (i < str_size) ? (*str)[i] : '\0';
+            i += 1;
         }
     }
-    return (line);
+    free(*str);
+    *str = new_str;
+    return (output);
+}
+
+int my_strcat(char **dest, char const *src, char limit)
+{
+    int i = 0;
+    int first = my_strlen_with_limit(*dest, 0);
+
+    if (src == NULL || src[0] == '\0'
+    || !my_realloc(dest, my_strlen_with_limit(src, limit)))
+        return (0);
+    while (src[i] != '\0' && src[i] != limit) {
+        (*dest)[first + i] = src[i];
+        i += 1;
+    }
+    return ((src[i] == '\0') ? 1 : 2);
+}
+
+int read_file(int fd, char *buffer, char **save)
+{
+    int i = 0;
+    int size = -1;
+
+    free(*save);
+    *save = NULL;
+    if (buffer != NULL)
+        size = read(fd, buffer, (int)READ_SIZE);
+    if (size <= 0)
+        return (0);
+    buffer[size] = '\0';
+    while (i < size) {
+        if (buffer[i] == '\n') {
+            my_strcat(save, &buffer[i + 1], 0);
+            return (2);
+        }
+        i += 1;
+    }
+    return (1);
 }
 
 char *get_next_line(int fd)
 {
-    int i = 0;
-    char c = '\0';
-    char *line = malloc(sizeof(char *) * 3);
+    char *buffer;
+    char *line = NULL;
+    static char *save = NULL;
+    char *new_save = NULL;
+    int read_status = 1;
 
-    if (line == NULL || fd == -1 || READ_SIZE <= 0)
-        return (NULL);
-    c = read_the_line(fd);
-    while (c && c != '\n') {
-        line[i] = c;
-        line[i + 1] = '\0';
-        line = my_realloc(line);
-        c = read_the_line(fd);
-        i++;
+    if (my_strcat(&line, save, '\n') == 2) {
+        my_strcat(&new_save, &save[my_strlen_with_limit(line, 0) + 1], 0);
+        free(save);
+        save = new_save;
+        return (line);
     }
-    return (ret(i, c, line));
+    buffer = malloc(sizeof(char) * (abs((int)READ_SIZE) + 1));
+    while (fd >= 0 && (int)READ_SIZE > 0 && read_status == 1) {
+        read_status = read_file(fd, buffer, &save);
+        if (read_status != 0 && !my_strcat(&line, buffer, '\n'))
+            break;
+    }
+    free(buffer);
+    return (line);
 }
