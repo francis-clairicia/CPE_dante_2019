@@ -32,7 +32,8 @@ static int print_help(void)
     printf("%s\n", "DESCRIPTION");
     printf("\t%s\t\t%s\n", "x", "the width of the maze");
     printf("\t%s\t\t%s\n", "y", "the height of the maze");
-    printf("\t%s\t\t%s\n", "perfect", "For anything as parameter, the maze will be considered");
+    printf("\t%s\t\t%s", "perfect", "For anything as parameter, ");
+    printf("%s\n", "the maze will be considered");
     printf("\t\t\t%s\n", "as perfect. Imperfect othrewise");
     return (0);
 }
