@@ -22,8 +22,11 @@ static void print_map(char * const *map, int width)
 
 int maze_generator(int width, int height, bool perfect_maze)
 {
-    char **map = sidewinder_algo(width, height, perfect_maze);
+    char **map = NULL;
 
+    if (width <= 0 || height <= 0)
+        return (84);
+    map = sidewinder_algo(width, height, perfect_maze);
     if (map == NULL)
         return (84);
     print_map(map, width);

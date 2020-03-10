@@ -9,7 +9,6 @@ SRC_NO_TEST			=	src/main.c
 
 SRC_TEST			=	src/generator.c					\
 						src/word_array.c				\
-						src/int_array.c					\
 						src/sidewinder/sidewinder.c		\
 						src/sidewinder/generate_maze.c	\
 						src/sidewinder/perfect_maze.c
