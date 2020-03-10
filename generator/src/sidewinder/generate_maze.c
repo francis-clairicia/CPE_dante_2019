@@ -5,7 +5,7 @@
 ** generate_maze.c
 */
 
-#include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "maze_generator.h"
@@ -28,7 +28,7 @@ static void set_char_to_maze(char **maze, char c, vector_t pos, vector_t size)
     }
 }
 
-static void fill_first_col(char **maze, int **grid,
+static void fill_first_col(char **maze, char **grid,
     vector_t pos, vector_size_t size)
 {
     int cell = grid[pos.y][pos.x];
@@ -41,7 +41,7 @@ static void fill_first_col(char **maze, int **grid,
         set_char_to_maze(maze, '_', maze_pos, size.maze);
 }
 
-static void fill_second_col(char **maze, int **grid, vector_t pos,
+static void fill_second_col(char **maze, char **grid, vector_t pos,
     vector_size_t size)
 {
     int cell = grid[pos.y][pos.x];
@@ -62,16 +62,43 @@ static void fill_second_col(char **maze, int **grid, vector_t pos,
         set_char_to_maze(maze, '|', maze_pos, size.maze);
 }
 
-void generate_maze(char **maze, int **grid, vector_size_t size)
+static int create_new_lines(char ***maze_ptr, int row, int width)
+{
+    char **maze = *maze_ptr;
+    int i = 0;
+
+    for (i = 0; i < 2; i += 1) {
+        maze[row + i] = malloc(sizeof(char) * (width + 1));
+        if (maze[row + i] == NULL) {
+            my_free_word_array(maze);
+            *maze_ptr = NULL;
+            return (0);
+        }
+        memset(maze[row + i], ' ', width);
+        maze[row + i][width] = '\0';
+    }
+    return (1);
+}
+
+char **generate_maze(char **maze, char **grid, vector_size_t size)
 {
     vector_t pos = {0, 0};
+    int row = 0;
 
-    if (maze == NULL || grid ==  NULL)
-        return;
+    if (maze == NULL || grid == NULL)
+        return (maze);
     for (pos.y = 0; grid[pos.y] != NULL; pos.y += 1) {
+        if (!create_new_lines(&maze, row, size.maze.x))
+            break;
         for (pos.x = 0; pos.x < size.grid.x; pos.x += 1) {
             fill_first_col(maze, grid, pos, size);
             fill_second_col(maze, grid, pos, size);
         }
+        free(grid[pos.y]);
+        row += 2;
     }
+    for (pos.y = pos.y; grid[pos.y] != NULL; pos.y += 1)
+        free(grid[pos.y]);
+    free(grid);
+    return (maze);
 }
