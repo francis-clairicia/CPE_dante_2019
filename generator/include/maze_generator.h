@@ -16,6 +16,12 @@ typedef struct vector
     int y;
 } vector_t;
 
+typedef struct size
+{
+    vector_t maze;
+    vector_t grid;
+} vector_size_t;
+
 enum DIRECTIONS
 {
     N = 1 << 0,
@@ -30,7 +36,7 @@ enum DIRECTIONS
 int maze_generator(int width, int height, bool perfect_maze);
 
 char **sidewinder_algo(int width, int height, bool perfect_maze);
-void generate_maze(char **maze, int **grid, int grid_width, int grid_height);
+void generate_maze(char **maze, int **grid, vector_size_t size);
 char **perfect_sidewinder_maze(char **maze, int width, int height);
 
 char **create_word_array(int width, int height);

@@ -30,7 +30,7 @@ char **create_word_array(int width, int height)
         return (NULL);
     for (i = 0; i < height; i += 1) {
         array[i] = malloc(sizeof(char) * (width + 1));
-        if (array[i]== NULL) {
+        if (array[i] == NULL) {
             my_free_word_array(array);
             return (NULL);
         }

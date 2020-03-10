@@ -31,7 +31,7 @@ int **create_int_array(int width, int height)
         return (NULL);
     for (i = 0; i < height; i += 1) {
         array[i] = malloc(sizeof(int) * (width + 1));
-        if (array[i]== NULL) {
+        if (array[i] == NULL) {
             my_free_int_array(array);
             return (NULL);
         }
