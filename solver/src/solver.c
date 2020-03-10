@@ -16,8 +16,10 @@ int print_array(char **arr)
     int x = 0;
 
     while (arr[x] != NULL) {
-        printf("%s\n", arr[x]);
+        printf("%s", arr[x]);
         x++;
+        if (arr[x] != NULL)
+            printf("\n");
     }
     return 0;
 }
