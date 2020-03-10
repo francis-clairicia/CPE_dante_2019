@@ -34,8 +34,8 @@ char *create_moves(maze_t *maze, int posx, int posy)
     char *move = malloc(sizeof(char) * 5);
 
     if (move != NULL) {
-        move[0] = check_pos_exist(*maze, posx, posy + 1);
-        move[1] = check_pos_exist(*maze, posx + 1, posy);
+        move[0] = check_pos_exist(*maze, posx + 1, posy);
+        move[1] = check_pos_exist(*maze, posx, posy + 1);
         move[2] = check_pos_exist(*maze, posx - 1, posy);
         move[3] = check_pos_exist(*maze, posx, posy - 1);
         move[4] = '\0';
