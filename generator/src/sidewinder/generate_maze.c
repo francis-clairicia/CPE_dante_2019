@@ -62,44 +62,38 @@ static void fill_second_col(char **maze, char **grid, vector_t pos,
         set_char_to_maze(maze, '|', maze_pos, size.maze);
 }
 
-static bool create_new_lines(char ***maze_ptr, int row, int width, int height)
+static bool create_new_lines(char **maze, int width, int height)
 {
-    char **maze = *maze_ptr;
-    int i = 0;
+    int row = 0;
 
-    for (i = 0; i < 2; i += 1) {
-        if (row + i == height)
-            return (1);
-        maze[row + i] = malloc(sizeof(char) * (width + 1));
-        if (maze[row + i] == NULL) {
+    for (row = 0; row < 4 && row < height; row += 1) {
+        maze[row] = malloc(sizeof(char) * (width + 1));
+        if (maze[row] == NULL) {
             my_free_word_array(maze);
-            *maze_ptr = NULL;
             return (false);
         }
-        maze[row + i][width] = '\0';
+        maze[row][width] = '\0';
     }
     return (true);
 }
 
-char **generate_maze(char **maze, char **grid, vector_size_t size)
+void generate_maze(char **maze, char **grid, vector_size_t size, bool perfect)
 {
     vector_t pos = {0, 0};
     int row = 0;
 
-    if (maze == NULL || grid == NULL)
-        return (maze);
+    if (maze == NULL || grid == NULL
+    || !create_new_lines(maze, size.maze.x, size.maze.y))
+        return;
     for (pos.y = 0; grid[pos.y] != NULL; pos.y += 1) {
-        if (!create_new_lines(&maze, row, size.maze.x, size.maze.y))
-            break;
+        print_maze(maze, size.maze.x, size.maze.y, row);
         for (pos.x = 0; pos.x < size.grid.x; pos.x += 1) {
             fill_first_col(maze, grid, pos, size);
             fill_second_col(maze, grid, pos, size);
         }
-        free(grid[pos.y]);
+        if (perfect && row + 1 < size.maze.y)
+            perfect_sidewinder_maze(maze[row + 1], size.maze.x);
         row += 2;
     }
-    for (pos.y = pos.y; grid[pos.y] != NULL; pos.y += 1)
-        free(grid[pos.y]);
-    free(grid);
-    return (maze);
+    while (print_maze(maze, size.maze.x, size.maze.y, row++));
 }

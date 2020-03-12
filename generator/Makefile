@@ -11,7 +11,9 @@ SRC_TEST			=	src/generator.c					\
 						src/word_array.c				\
 						src/sidewinder/sidewinder.c		\
 						src/sidewinder/generate_maze.c	\
-						src/sidewinder/perfect_maze.c
+						src/sidewinder/perfect_maze.c	\
+						src/sidewinder/print_maze.c		\
+						src/sidewinder/free_maze.c
 
 SRC					=	$(SRC_NO_TEST) $(SRC_TEST)
 

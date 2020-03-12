@@ -9,24 +9,6 @@
 #include <string.h>
 #include "maze_generator.h"
 
-static char **finalize_maze(char **maze, int width, int height, bool perfect)
-{
-    int last_row = height - 1;
-    int last_col = width - 1;
-
-    if (maze == NULL)
-        return (NULL);
-    if (perfect)
-        perfect_sidewinder_maze(maze, width, height);
-    maze[last_row][last_col] = FREE_SPACE;
-    if (width % 2 == 0 && height % 2 == 0) {
-        last_col -= 1;
-        if (last_col >= 0)
-            maze[last_row][last_col] = FREE_SPACE;
-    }
-    return (maze);
-}
-
 static void setup_grid(char **grid, int row, int width)
 {
     int col = 0;
@@ -47,7 +29,7 @@ static void setup_grid(char **grid, int row, int width)
     }
 }
 
-char **sidewinder_algo(int width, int height, bool perfect_maze)
+void sidewinder_algo(int width, int height, bool perfect_maze)
 {
     vector_size_t size = {
         {width, height},
@@ -60,10 +42,11 @@ char **sidewinder_algo(int width, int height, bool perfect_maze)
     if (maze == NULL || grid == NULL) {
         free(maze);
         my_free_word_array(grid);
-        return (NULL);
+        return;
     }
     for (row = 0; grid[row] != NULL; row += 1)
         setup_grid(grid, row, size.grid.x);
-    maze = generate_maze(maze, grid, size);
-    return (finalize_maze(maze, width, height, perfect_maze));
+    generate_maze(maze, grid, size, perfect_maze);
+    free_maze(maze, height);
+    my_free_word_array(grid);
 }
