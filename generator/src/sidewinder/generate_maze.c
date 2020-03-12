@@ -62,7 +62,7 @@ static void fill_second_col(char **maze, char **grid, vector_t pos,
         set_char_to_maze(maze, '|', maze_pos, size.maze);
 }
 
-static int create_new_lines(char ***maze_ptr, int row, int width, int height)
+static bool create_new_lines(char ***maze_ptr, int row, int width, int height)
 {
     char **maze = *maze_ptr;
     int i = 0;
@@ -74,12 +74,11 @@ static int create_new_lines(char ***maze_ptr, int row, int width, int height)
         if (maze[row + i] == NULL) {
             my_free_word_array(maze);
             *maze_ptr = NULL;
-            return (0);
+            return (false);
         }
-        memset(maze[row + i], ' ', width);
         maze[row + i][width] = '\0';
     }
-    return (1);
+    return (true);
 }
 
 char **generate_maze(char **maze, char **grid, vector_size_t size)

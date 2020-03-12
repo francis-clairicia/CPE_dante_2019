@@ -53,7 +53,7 @@ char **sidewinder_algo(int width, int height, bool perfect_maze)
         {width, height},
         {(width + 1) / 2, (height + 1) / 2}
     };
-    char **maze = malloc(sizeof(char *) * (height + 1));
+    char **maze = calloc(height + 1, sizeof(char *));
     char **grid = create_word_array(size.grid.x, size.grid.y);
     int row = 0;
 
@@ -62,8 +62,6 @@ char **sidewinder_algo(int width, int height, bool perfect_maze)
         my_free_word_array(grid);
         return (NULL);
     }
-    for (row = 0; row <= height; row += 1)
-        maze[row] = NULL;
     for (row = 0; grid[row] != NULL; row += 1)
         setup_grid(grid, row, size.grid.x);
     maze = generate_maze(maze, grid, size);

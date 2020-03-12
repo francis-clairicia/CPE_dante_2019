@@ -21,7 +21,7 @@ static void check_side(char *line, int col, int width, int offset)
     line[col - offset] = WALL;
 }
 
-char **perfect_sidewinder_maze(char **maze, int width, int height)
+void perfect_sidewinder_maze(char **maze, int width, int height)
 {
     int row = 0;
     int col = 0;
@@ -32,5 +32,4 @@ char **perfect_sidewinder_maze(char **maze, int width, int height)
             check_side(maze[row], col, width, 1);
         }
     }
-    return (maze);
 }

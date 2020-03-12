@@ -37,7 +37,7 @@ int maze_generator(int width, int height, bool perfect_maze);
 
 char **sidewinder_algo(int width, int height, bool perfect_maze);
 char **generate_maze(char **maze, char **grid, vector_size_t size);
-char **perfect_sidewinder_maze(char **maze, int width, int height);
+void perfect_sidewinder_maze(char **maze, int width, int height);
 
 char **create_word_array(int width, int height);
 void my_free_word_array(char **array);
